@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.javafxclase2.HelloController">
+   <children>
+      <Button fx:id="buttonGuardar" layoutX="306.0" layoutY="111.0" mnemonicParsing="false" onAction="#comprobarDatos" text="Guardar" />
+      <Label layoutX="33.0" layoutY="42.0" text="Nombre de pais" />
+      <Label layoutX="38.0" layoutY="81.0" text="Población" />
+      <Label layoutX="46.0" layoutY="124.0" text="Idioma" />
+      <Label layoutX="42.0" layoutY="170.0" text="Moneda" />
+      <Label layoutX="35.0" layoutY="206.0" text="Continente" />
+      <TextField fx:id="tfNombrePais" layoutX="125.0" layoutY="38.0" />
+      <TextField fx:id="tfPoblacion" layoutX="102.0" layoutY="77.0" />
+      <TextField fx:id="tfIdioma" layoutX="91.0" layoutY="120.0" />
+      <TextField fx:id="tfMoneda" layoutX="102.0" layoutY="166.0" />
+      <TextField fx:id="tfContinente" layoutX="102.0" layoutY="202.0" />
+      <Label fx:id="labelError" layoutX="152.0" layoutY="321.0" />
+   </children>
+</AnchorPane>
