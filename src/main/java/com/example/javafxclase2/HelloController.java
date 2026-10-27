@@ -1,18 +1,13 @@
 package com.example.javafxclase2;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import modelo.Fichero;
 
-import java.io.DataInputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Arrays;
-import java.util.InputMismatchException;
-import java.util.Locale;
-
-import static modelo.Fichero.ruta;
+import java.util.List;
 
 public class HelloController {
     @FXML
@@ -27,46 +22,69 @@ public class HelloController {
     private TextField tfContinente;
     @FXML
     private Label labelError;
+
+    private static final List<String> CONTINENTES =
+            Arrays.asList("america", "europa", "asia", "africa", "oceania", "antartida");
+
+    //Funcion para guardar datos
     @FXML
-    private Button buttonGuardar;
+    protected void guardarPais() {
+        String nombre = tfNombrePais.getText().trim();
+        String idioma = tfIdioma.getText().trim();
+        String moneda = tfMoneda.getText().trim();
+        String continente = tfContinente.getText().trim().toLowerCase();
+        String poblacionTexto = tfPoblacion.getText().trim();
 
-    //En esta funcion voy a validar el textField de continente y que la poblacion sea un numero
-    public void comprobarDatos(){
-        String mnsjError= "";
-        int poblacion = 0;
-        String continente = "";
+        String mnsjError = "";
         boolean error = false;
-        String [] continentes = new String [] {"america","europa","africa","asia","oceania","Antartida"};
+        int poblacion = 0;
 
-        //Paso el texto a la var sin espacios y en minus
-        continente = tfContinente.getText().trim().toLowerCase(Locale.ROOT);
+        try {
+            //Compruebo si ya hay un pais con ese nombre en el fichero
+            if (Fichero.existePais(nombre)) {
+                mnsjError += "Ya existe un país con ese nombre\n";
+                tfNombrePais.clear();
+                error = true;
+            }
 
-        //Compruebo que el txtF de continente tenga uno de los 6 continentes indicados
-        if(!Arrays.asList(continentes).contains(continente)){
-              error = true;
-              mnsjError += "El continente es incorrecto\n";
+            //Compruebo que la poblacion sea un int
+            try {
+                poblacion = Integer.parseInt(poblacionTexto);
+            } catch (NumberFormatException e) {
+                mnsjError += "La población debe ser un número entero\n";
+                tfPoblacion.clear();
+                error = true;
+            }
+
+            //Compruebo que el continente sea uno de los 6
+            if (!CONTINENTES.contains(continente)) {
+                mnsjError += "Continente incorrecto\n";
+                tfContinente.clear();
+                error = true;
+            }
+
+            //Si hay algun error no se guarda nada
+            if (error) {
+                labelError.setText(mnsjError);
+                return;
+            }
+
+            //Guardo el continente con la primera letra en mayuscula
+            continente = Character.toUpperCase(continente.charAt(0)) + continente.substring(1);
+
+            Fichero.escribirFichero(nombre, poblacion, idioma, moneda, continente);
+            labelError.setText("País guardado correctamente");
+            limpiarCampos();
+        } catch (IOException e) {
+            labelError.setText("Error al acceder al fichero");
         }
-        try{
-            poblacion = Integer.parseInt(tfPoblacion.getText().trim());
-        }catch (InputMismatchException e){
-            mnsjError += "La poblacion no es un numero\n";
-            error = true;
-        }
-        labelError.setText(mnsjError);
-        }
+    }
 
-        public boolean comprobarPais() throws FileNotFoundException {
-            FileInputStream fis = new FileInputStream(ruta);
-            DataInputStream dos = new DataInputStream(fis);
-
-            String pais = "";
-
-            pais = tfNombrePais.getText().trim().toLowerCase(Locale.ROOT);
-
-
-        }
+    private void limpiarCampos() {
+        tfNombrePais.clear();
+        tfPoblacion.clear();
+        tfIdioma.clear();
+        tfMoneda.clear();
+        tfContinente.clear();
+    }
 }
-
-
-
-

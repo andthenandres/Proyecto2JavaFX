@@ -3,9 +3,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.javafxclase2.HelloController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@estilos.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.javafxclase2.HelloController">
    <children>
-      <Button fx:id="buttonGuardar" layoutX="306.0" layoutY="111.0" mnemonicParsing="false" onAction="#comprobarDatos" text="Guardar" />
+      <Button fx:id="buttonGuardar" layoutX="306.0" layoutY="111.0" mnemonicParsing="false" onAction="#guardarPais" styleClass="boton-guardar" text="Guardar" />
       <Label layoutX="33.0" layoutY="42.0" text="Nombre de pais" />
       <Label layoutX="38.0" layoutY="81.0" text="Población" />
       <Label layoutX="46.0" layoutY="124.0" text="Idioma" />

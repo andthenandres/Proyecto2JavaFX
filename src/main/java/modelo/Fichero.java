@@ -3,61 +3,53 @@ package modelo;
 import java.io.*;
 
 public class Fichero {
-    //Pongo la ruta en static y publica para que sea accesible desde otros paises
-    public static String ruta ="paises.dat";
-    public static void escribirFichero() throws IOException {
+    public static String ruta = "paises.bin";
 
-        FileOutputStream fos = new FileOutputStream(ruta, true);
-        DataOutputStream dos = new DataOutputStream(fos);
-
-        String nombreP = "";
-        int poblacion = 0;
-        String idioma = "";
-        String moneda = "";
-        String continente = "";
-
-
-        dos.writeUTF(nombreP);
-        dos.writeInt(poblacion);
-        dos.writeUTF(idioma);
-        dos.writeUTF(moneda);
-        dos.writeUTF(continente);
-
-        //Cerramos todo
-        fos.close();
-        dos.close();
+    public static void escribirFichero(String nombreP, int poblacion, String idioma,
+                                       String moneda, String continente) throws IOException {
+        try (DataOutputStream dos = new DataOutputStream(new FileOutputStream(ruta, true))) {
+            dos.writeUTF(nombreP);
+            dos.writeInt(poblacion);
+            dos.writeUTF(idioma);
+            dos.writeUTF(moneda);
+            dos.writeUTF(continente);
+        }
     }
-    public void leerFichero() throws IOException {
-        FileInputStream fis = new FileInputStream(ruta);
-        DataInputStream dis = new DataInputStream(fis);
 
-        String nombreP = "";
-        int poblacion = 0;
-        String idioma = "";
-        String moneda = "";
-        String continente = "";
+    public static boolean existePais(String nombre) throws IOException {
+        return buscarPais(nombre) != null;
+    }
 
-
-
-        //Escribo los valores mientras haya valores escritos
-        while(true) {
-            try {
-
-                nombreP = dis.readUTF();
-                poblacion = dis.readInt();
-                idioma = dis.readUTF();
-                moneda = dis.readUTF();
-                continente = dis.readUTF();
-            }catch (IOException e){
-                System.out.println("Fin de la lista");
-                break;
-            }
+    // Devuelve {nombre, poblacion, idioma, moneda, continente} o null si no existe
+    public static String[] buscarPais(String nombre) throws IOException {
+        File f = new File(ruta);
+        if (!f.exists()) {
+            return null;
         }
 
-        String datos [] = {nombreP, poblacion, idioma, moneda, continente};
+        try (DataInputStream dis = new DataInputStream(new FileInputStream(f))) {
+            while (true) {
+                String nombreLeido = dis.readUTF();
+                int poblacion = dis.readInt();
+                String idioma = dis.readUTF();
+                String moneda = dis.readUTF();
+                String continente = dis.readUTF();
 
-        //Cerramos
-        fis.close();
-        dis.close();
+                if (nombreLeido.equalsIgnoreCase(nombre)) {
+                    return new String[]{nombreLeido, String.valueOf(poblacion),
+                            idioma, moneda, continente};
+                }
+            }
+        } catch (EOFException e) {
+            return null; // fin del fichero sin encontrarlo
+        }
+    }
+
+    // Da de alta un país solo si no estaba ya
+    public static void altaSiNoExiste(String nombre, int poblacion, String idioma,
+                                      String moneda, String continente) throws IOException {
+        if (!existePais(nombre)) {
+            escribirFichero(nombre, poblacion, idioma, moneda, continente);
+        }
     }
 }

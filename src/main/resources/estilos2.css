@@ -1,0 +1,6 @@
+.combo-box {
+    -fx-background-color: grey;
+    -fx-border-color: #9E9E9E;
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+}

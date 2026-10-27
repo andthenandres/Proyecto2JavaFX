@@ -1,0 +1,26 @@
+/* Estilo de los campos de texto */
+.text-field {
+    -fx-background-color: white;
+    -fx-border-color: #c5cbe0;
+    /* bordes redondeados */
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    /* espacio entre el texto y el borde del campo */
+    -fx-padding: 7 10 7 10;
+}
+
+/* Estilo del boton Guardar */
+.boton-guardar {
+    -fx-background-color: #4a6cf7;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 6;
+    -fx-padding: 9 30 9 30;
+    /* cambia el cursor a una mano al pasar por encima */
+    -fx-cursor: hand;
+}
+
+/* Color del boton cuando pasamos el raton por encima */
+.boton-guardar:hover {
+    -fx-background-color: #3a57d1;
+}
